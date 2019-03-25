@@ -9,18 +9,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.demotxt.myapp.myapplication.R;
 import com.demotxt.myapp.myapplication.activities.AnimeActivity;
 import com.demotxt.myapp.myapplication.model.Anime;
-import com.demotxt.myapp.myapplication.R ;
 
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Aws on 11/03/2018.
+ * Created by kuldeep parshar
+ *
  */
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
@@ -29,6 +31,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private List<Anime> mData ;
     RequestOptions option;
 
+    public ArrayList<URL> ar = new ArrayList<URL>();
 
     public RecyclerViewAdapter(Context mContext, List<Anime> mData) {
         this.mContext = mContext;
@@ -57,7 +60,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 i.putExtra("anime_category",mData.get(viewHolder.getAdapterPosition()).getCategorie());
                 i.putExtra("anime_nb_episode",mData.get(viewHolder.getAdapterPosition()).getNb_episode());
                 i.putExtra("anime_rating",mData.get(viewHolder.getAdapterPosition()).getRating());
-                i.putExtra("anime_img",mData.get(viewHolder.getAdapterPosition()).getImage_url());
+                i.putExtra("anime_img", "https://i.pinimg.com/originals/d4/60/db/d460db8bb8e8e84ab64c373d2e32d2ca.jpg");
 
                 mContext.startActivity(i);
 
@@ -78,9 +81,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.tv_studio.setText(mData.get(position).getStudio());
         holder.tv_category.setText(mData.get(position).getCategorie());
 
+
         // Load Image from the internet and set it into Imageview using Glide
 
-        Glide.with(mContext).load(mData.get(position).getImage_url()).apply(option).into(holder.img_thumbnail);
+        Glide.with(mContext).load(position % 2 == 0 ? "https://i.pinimg.com/originals/d4/60/db/d460db8bb8e8e84ab64c373d2e32d2ca.jpg" : "https://qphs.fs.quoracdn.net/main-qimg-482b9dab177350d9093eedea611a9372").apply(option).into(holder.img_thumbnail);
 
 
 

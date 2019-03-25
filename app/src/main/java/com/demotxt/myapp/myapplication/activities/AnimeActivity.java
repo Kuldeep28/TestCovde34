@@ -1,17 +1,20 @@
 package com.demotxt.myapp.myapplication.activities;
 
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.demotxt.myapp.myapplication.R ;
+import com.demotxt.myapp.myapplication.R;
 
 public class AnimeActivity extends AppCompatActivity {
-
+    FloatingActionButton fabButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,10 +61,15 @@ public class AnimeActivity extends AppCompatActivity {
 
         // set image using Glide
         Glide.with(this).load(image_url).apply(requestOptions).into(img);
-
-
-
-
+        fabButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
+        fabButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i1 = new Intent(view.getContext(), Admission_Form.class);
+                startActivity(i1);
+            }
+        });
 
     }
+
 }

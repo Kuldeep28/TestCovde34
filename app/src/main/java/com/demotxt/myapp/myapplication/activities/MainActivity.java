@@ -1,9 +1,15 @@
 package com.demotxt.myapp.myapplication.activities;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -21,14 +27,15 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
 
+public class MainActivity extends AppCompatActivity {
+    private static String TAG = "MainActivty";
     private final String JSON_URL = "https://gist.githubusercontent.com/aws1994/f583d54e5af8e56173492d3f60dd5ebf/raw/c7796ba51d5a0d37fc756cf0fd14e54434c547bc/anime.json" ;
     private JsonArrayRequest request ;
     private RequestQueue requestQueue ;
     private List<Anime> lstAnime ;
     private RecyclerView recyclerView ;
-
+    FloatingActionButton fbutton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +45,14 @@ public class MainActivity extends AppCompatActivity {
         lstAnime = new ArrayList<>() ;
         recyclerView = findViewById(R.id.recyclerviewid);
         jsonrequest();
-
+        fbutton = (FloatingActionButton) findViewById(R.id.fbuton);
+        fbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent MakeCult = new Intent(view.getContext(), MakeCult.class);
+                startActivity(MakeCult);
+            }
+        });
 
 
     }
@@ -79,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MainActivity.this, "datafetchingError", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onErrorResponse: error in volley parse");
 
             }
         });
@@ -94,8 +110,33 @@ public class MainActivity extends AppCompatActivity {
 
 
         RecyclerViewAdapter myadapter = new RecyclerViewAdapter(this,lstAnime) ;
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.setAdapter(myadapter);
+        recyclerView.addItemDecoration(new SpacesItemDecoration(5));
 
     }
+
+    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+
+        private int halfSpace;
+
+        public SpacesItemDecoration(int space) {
+            this.halfSpace = space / 2;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+
+            if (parent.getPaddingLeft() != halfSpace) {
+                parent.setPadding(halfSpace, halfSpace, halfSpace, halfSpace);
+                parent.setClipToPadding(false);
+            }
+
+            outRect.top = halfSpace;
+            outRect.bottom = halfSpace;
+            outRect.left = halfSpace;
+            outRect.right = halfSpace;
+        }
+    }
+
 }

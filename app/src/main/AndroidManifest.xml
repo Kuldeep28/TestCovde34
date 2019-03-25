@@ -23,6 +23,16 @@
         <activity android:name=".activities.AnimeActivity">
 
         </activity>
+        <activity
+            android:name=".activities.Admission_Form"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activities.MakeCult">
+
+        </activity>
     </application>
 
 </manifest>
